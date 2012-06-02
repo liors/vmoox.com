@@ -1,6 +1,11 @@
 module Nesta
   class App
-    
+
+    use Rack::Auth::Basic, "Protected Area" do |username, password|
+      username == 'lior' && password == 'mika09'
+    end
+
+
     get '/effectiveIT' do
       erb :effectiveIT
     end
