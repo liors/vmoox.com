@@ -1,0 +1,60 @@
+Date: 16 May 2012
+Categories: GWT
+Summary: If you find yourself straggling with removing click handlers from GWT buttons , then GWT Toggle Button is here to help.
+Read more: Continue reading
+
+
+# UX Pattern - how to prevent double click on form submitting using GWT
+
+When building ajax application, or a "one-page" apps. it's very important to think about user interaction when building froms.
+
+Let say your requirement is to build a restaurant order form. A user needs to select a dish from a menu and press the "place my order" button to finish the order.
+It's a good UX pattern to help users avoid mistakes, by disabling the "place my order" button.
+
+In GWT, one can go about it by removing the click handler from the "place my order" button, for example:
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers">
+<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre>
+<code class="GWT"><span class="line"><span class="c1">@UiField Button placeOrderButton;</span></span>
+<span class="line"><span class="line"><span class="c1">... later in your bind events method</span></span>
+<span class="line"><span class="line"><span class="c1">final HandlerRegistration placeMyOrderHandler =
+   placeOrderButton.addClickHandler(new ClickHandler() {</span></span>
+<span class="line"><span class="line"><span class="c1">      @Override public void onClick(ClickEvent event) {</span></span>
+<span class="line"><span class="line"><span class="c1">          presenter.placeMyOder();</span></span>
+<span class="line"><span class="line"><span class="c1">          placeMyOrderHandler.removeHandler();</span></span>
+<span class="line"><span class="line"><span class="c1">   }</span></span>
+<span class="line"><span class="line"><span class="c1">});</span></span>
+</code></pre></td></tr></tbody></table></div></figure>
+
+But, it's a lot easier and straightforward to use GWT built-in widget called [ToogleButton](http://google-web-toolkit.googlecode.com/svn/javadoc/2.4/com/google/gwt/user/client/ui/ToggleButton.html).
+
+Implementing the same use-case will now be: 
+
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers">
+<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre>
+<code class="java"><span class="line"><span class="c1">private native void adjustElementHeightImpl(Element element) /\*-{</span></span>
+<span class="line"><span class="line"><span class="c1">     var elementHeight = $wnd.$(element).height();</span></span>
+<span class="line"><span class="line"><span class="c1">     var myWindowHeight = $wnd.$($wnd).height();</span></span>
+<span class="line"><span class="line"><span class="c1">     //implement your logic here...</span></span>
+<span class="line"><span class="line"><span class="c1">}-\*/;</span></span>
+</code></pre></td></tr></tbody></table></div></figure>
+
+A lot simpler and avoid click handlers re-binding bugs.
+
+
+

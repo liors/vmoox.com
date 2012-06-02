@@ -1,0 +1,38 @@
+Date: 14 May 2012
+Categories: java, gwt, jQuery, web development
+Summary: jQuery and GWT can go a long way together. How do you get a reference to jQuery's window object from a GWT app?
+Read more: Continue reading
+
+
+# jQuery and GWT
+
+GWT is a great framework. You can scale your client, have fast iteration over your use-cases and collaborate with your teammates in a cost effective way.
+
+But, I find myself at least few times a day "going down" to jQuery when trying to get a tighter control over the DOM, or use a cool plugin.
+
+For example, I was trying to adjust one of my containers's height according to the client window height.
+
+In jQuery this is a very simple task:
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers">
+<span class="line-number">1</span>
+</pre></td><td class="code"><pre>
+<code class="jQuery"><span class="line"><span class="c1">var myWindowHeight = $(window).height();</span></span>
+</code></pre></td></tr></tbody></table></div></figure>
+
+How would you accomplish the same from GWT and JSNI?
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers">
+<span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre>
+<code class="java"><span class="line"><span class="c1">private native void adjustElementHeightImpl(Element element) /\*-{</span></span>
+<span class="line"><span class="line"><span class="c1">     var elementHeight = $wnd.$(element).height();</span></span>
+<span class="line"><span class="line"><span class="c1">     var myWindowHeight = $wnd.$($wnd).height();</span></span>
+<span class="line"><span class="line"><span class="c1">     //implement your logic here...</span></span>
+<span class="line"><span class="line"><span class="c1">}-\*/;</span></span>
+</code></pre></td></tr></tbody></table></div></figure>
+
